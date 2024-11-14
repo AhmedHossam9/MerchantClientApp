@@ -1,0 +1,22 @@
+{
+    "welcome": "Welcome",
+    "login": "Login",
+    "register": "Register",
+    "language": "Language",
+    "merchat": "Merchant",
+    "username"   : "Username",
+    "age"       :"Age",
+    "nationalid"  : "National ID",
+    "date_of_birth" : "Date Of Birth",
+    "password": "Password",
+    "address" : "Address",
+    "accounttype": "Account Type",
+    "client": "Client",
+    "english": "English",
+    "arabic": "Arabic",
+    "email": "Email",
+    "phonenumber":"Phone Number"
+    ,"validation_failed": "Please fill in all the required fields correctly.",
+    "registration_error": "An error occured during registration process, please retry."
+  }
+  

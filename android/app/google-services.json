@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "766208215140",
+    "project_id": "efinmerchclient",
+    "storage_bucket": "efinmerchclient.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766208215140:android:9efcc726501c583365f771",
+        "android_client_info": {
+          "package_name": "com.clientmerch.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW4BO71zTJAb-PsvN16d6SvXfSO087_TQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:766208215140:android:86c8631462685d1f65f771",
+        "android_client_info": {
+          "package_name": "com.example.demo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBW4BO71zTJAb-PsvN16d6SvXfSO087_TQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
