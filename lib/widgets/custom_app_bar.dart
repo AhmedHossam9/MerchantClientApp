@@ -1,63 +1,74 @@
 import 'package:flutter/material.dart';
 import '../utils/app_localizations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Function(Locale) setLocale;
-  final String username; // Define the username parameter
+  final String username;
 
-  // Add username parameter to the constructor
-  CustomAppBar({required this.setLocale, required this.username});
+  const CustomAppBar({
+    Key? key,
+    required this.setLocale,
+    required this.username,
+  }) : super(key: key);
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight); // Standard AppBar height
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.black, // Set AppBar color to black
-      elevation: 0, // Remove shadow
-      title: Row(
-        children: [
-          SizedBox(width: 10), // Space between logo and title
-          Text(
-            'Welcome $username', // Display "Welcome Username"
-            style: TextStyle(
-              color: Colors.white, // White text color for contrast
-              fontWeight: FontWeight.bold,
-            ),
+      automaticallyImplyLeading: false,
+      backgroundColor: Theme.of(context).primaryColor,
+      elevation: 0,
+      leading: IconButton(
+        icon: Icon(
+          Icons.logout_rounded,
+          color: Colors.white,
+          size: 24,
+        ),
+        onPressed: () async {
+          await FirebaseAuth.instance.signOut();
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/welcome',
+            (route) => false,
+          );
+        },
+      ),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFF1a237e),
+              Color(0xFF534bae),
+            ],
           ),
-        ],
+        ),
+      ),
+      title: Text(
+        AppLocalizations.of(context).translate('welcome_user').replaceAll('{username}', username),
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.2,
+        ),
       ),
       actions: [
-        // Language selection button
-        PopupMenuButton<String>(
-          onSelected: (value) {
-            if (value == 'en') {
-              setLocale(Locale('en'));
-            } else if (value == 'ar') {
-              setLocale(Locale('ar'));
-            }
-          },
-          icon: Icon(Icons.language, color: Colors.white), // Language icon color
-          itemBuilder: (BuildContext context) => [
-            PopupMenuItem(value: 'en', child: Text('English')),
-            PopupMenuItem(value: 'ar', child: Text('العربية')),
-          ],
-        ),
-        // Profile Button
         IconButton(
-          icon: Icon(Icons.person, color: Colors.white),
+          icon: Icon(
+            Icons.person_rounded,
+            color: Colors.white,
+            size: 24,
+          ),
           onPressed: () {
-            // Handle profile navigation
+            // Profile functionality will be added later
           },
         ),
-        // Logout Button
-        IconButton(
-          icon: Icon(Icons.logout, color: Colors.white),
-          onPressed: () {
-            // Handle logout action
-          },
-        ),
+        SizedBox(width: 8),
       ],
     );
   }

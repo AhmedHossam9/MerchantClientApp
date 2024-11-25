@@ -4,14 +4,17 @@ import 'package:flutter/services.dart';
 
 class AppLocalizations {
   final Locale locale;
+  Map<String, String> _localizedStrings = {};
 
   AppLocalizations(this.locale);
+
+  String get currentLanguage => locale.languageCode;
+
+  bool get isEnglish => locale.languageCode == 'en';
 
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
   }
-
-  late Map<String, String> _localizedStrings;
 
   Future<void> load() async {
     String jsonString = await rootBundle.loadString('lang/${locale.languageCode}.json');

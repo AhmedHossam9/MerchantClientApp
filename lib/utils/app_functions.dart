@@ -99,36 +99,44 @@ String? validatePassword(String? value) {
 }
 
 // Validate Egyptian phone number
-String? validateEgyptianPhoneNumber(String? phoneNumber) {
-  if (phoneNumber == null || phoneNumber.isEmpty) {
-    return 'Phone number is required';
+String? validateEgyptianPhoneNumber(String phoneNumber) {
+  if (phoneNumber.length != 11) {
+    return 'Phone number must be 11 digits';
+  }
+  
+  if (!phoneNumber.startsWith('01')) {
+    return 'Phone number must start with 01';
   }
 
-  // Remove any spaces, dashes, or parentheses
-  String cleanedNumber = phoneNumber.replaceAll(RegExp(r'[\s\-\(\)]'), '');
-
-  // Check if the number starts with +20 or 20
-  if (!cleanedNumber.startsWith('+20') && !cleanedNumber.startsWith('20')) {
-    return 'Phone number must start with +20 or 20';
+  if (!RegExp(r'^[0-9]+$').hasMatch(phoneNumber)) {
+    return 'Phone number must contain only digits';
   }
 
-  // Remove the country code for further validation
-  if (cleanedNumber.startsWith('+20')) {
-    cleanedNumber = cleanedNumber.substring(3);
-  } else {
-    cleanedNumber = cleanedNumber.substring(2);
+  return null;
+}
+
+Map<String, dynamic> extractDataFromNationalID(String nationalID) {
+  // Extract century and year from first 1+2 digits
+  int century = int.parse(nationalID[0]);
+  int year = int.parse(nationalID.substring(1, 3));
+  int month = int.parse(nationalID.substring(3, 5));
+  int day = int.parse(nationalID.substring(5, 7));
+
+  // Calculate full year
+  int fullYear = century == 2 ? 1900 + year : 2000 + year;
+  
+  // Create date of birth string in yyyy-MM-dd format
+  String dateOfBirth = '$fullYear-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}';
+  
+  // Calculate age
+  int age = DateTime.now().year - fullYear;
+  if (DateTime.now().month < month || 
+      (DateTime.now().month == month && DateTime.now().day < day)) {
+    age--;
   }
 
-  // Check if the remaining number is exactly 10 digits long
-  if (cleanedNumber.length != 10 || !RegExp(r'^\d+$').hasMatch(cleanedNumber)) {
-    return 'Phone number must be exactly 10 digits';
-  }
-
-  // Check if the first digit of the 10-digit number is valid (e.g., 1, 10, 11, 12, etc.)
-  String firstDigit = cleanedNumber[0];
-  if (!['1', '2', '3', '4', '5', '6', '7', '8', '9'].contains(firstDigit)) {
-    return 'Phone number starts with an invalid digit';
-  }
-
-  return null; // Valid phone number
+  return {
+    'age': age,
+    'dateOfBirth': dateOfBirth,
+  };
 }

@@ -14,6 +14,7 @@ class SlideshowBackground extends StatefulWidget {
 
 class _SlideshowBackgroundState extends State<SlideshowBackground> {
   int _currentImageIndex = 0;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -21,11 +22,19 @@ class _SlideshowBackgroundState extends State<SlideshowBackground> {
     _startSlideshow();
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   void _startSlideshow() {
-    Timer.periodic(Duration(seconds: 2), (timer) {
-      setState(() {
-        _currentImageIndex = (_currentImageIndex + 1) % widget.imagePaths.length;
-      });
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) {
+      if (mounted) {
+        setState(() {
+          _currentImageIndex = (_currentImageIndex + 1) % widget.imagePaths.length;
+        });
+      }
     });
   }
 
